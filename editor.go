@@ -71,7 +71,10 @@ func MakeEditor(ctx context.Context, text []byte, owner bool, channel *ably.Real
 		edit.Text = applyNew(string(text), edit.Text)
 		edit.Layout.Editable = true
 	} else {
-		edit.initFromHistory(ctx)
+		err = edit.initFromHistory(ctx)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	go edit.publishQueue()

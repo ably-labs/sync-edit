@@ -23,7 +23,7 @@ type State struct {
 type Logger struct{}
 
 func (l *Logger) Printf(level ably.LogLevel, format string, v ...interface{}) {
-	fmt.Printf("          [%s] %s\n", level, fmt.Sprintf(format, v...))
+	//fmt.Printf("          [%s] %s\n", level, fmt.Sprintf(format, v...))
 }
 
 func main() {
@@ -179,7 +179,7 @@ func newRealtime() (*ably.Realtime, error) {
 		ably.WithKey(key),
 		ably.WithClientID("editor-"+makeTag()),
 		//ably.WithClientID(user.Username),
-		//ably.WithLogHandler(&Logger{}),
+		ably.WithLogHandler(&Logger{}),
 		//ably.WithLogLevel(ably.LogDebug),
 	)
 }
