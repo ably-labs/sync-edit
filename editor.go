@@ -160,6 +160,9 @@ func applyDel(del Delete, text [][]byte) [][]byte {
 	if del.Count != 0 && del.Count+del.Pos-1 >= len(text[del.Line]) {
 		return text
 	}
+	if del.Count == 0 && del.Line >= len(text) {
+		return text
+	}
 
 	if del.Count == 0 {
 		line := text[del.Line]
@@ -193,9 +196,9 @@ func (e *Editor) handleMessage(msg *ably.Message) {
 		if msg.ClientID != e.Layout.Id {
 			x, y := e.cursorPos()
 			xo, yo := e.View().Origin()
-			if add.Text == "" && (add.Line < y || add.Line == y && add.Pos >= x) {
+			if add.Text == "" && (add.Line < y || add.Line == y && add.Pos > x) {
 				e.View().SetCursor(0, y-yo+1)
-			} else if add.Text != "" && add.Line == y && add.Pos+len(add.Text) >= x {
+			} else if add.Text != "" && add.Line == y && add.Pos+len(add.Text) > x {
 				e.View().SetCursor(x-xo+len(add.Text), y-yo)
 			}
 		}
