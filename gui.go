@@ -188,7 +188,9 @@ func (l *Layout) Layout(gui *gocui.Gui) error {
 				}
 				view.Frame = false
 				view.BgColor = gocui.ColorCyan
-				view.Write([]byte{member.Data.(string)[0]})
+				if member.Data.(string) != "" {
+					view.Write([]byte{member.Data.(string)[0]})
+				}
 			}
 		}
 	}

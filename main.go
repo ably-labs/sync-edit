@@ -152,7 +152,7 @@ func run() error {
 	if name == "" {
 		name = user.Username
 	}
-	err = channel.Presence.Enter(ctx, user.Name)
+	err = channel.Presence.Enter(ctx, name)
 	if err != nil {
 		return err
 	}
