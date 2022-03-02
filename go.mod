@@ -2,7 +2,7 @@ module github.com/Morganamilo/sync-edit
 
 go 1.17
 
-replace github.com/ably/ably-go => github.com/ably/ably-go v1.2.5-0.20220223110242-7ff1439460c7
+replace github.com/ably/ably-go => github.com/ably/ably-go v1.2.5-0.20220225114808-56d4173ebf08
 
 //replace github.com/ably/ably-go => ../ably-go
 
