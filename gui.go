@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/ably/ably-go/ably"
 	"github.com/jroimartin/gocui"
@@ -164,6 +165,22 @@ func (l *Layout) Layout(gui *gocui.Gui) error {
 
 			return nil
 		})
+	}
+
+	for _, view := range gui.Views() {
+		name := view.Name()
+		if strings.HasPrefix(name, "cursor-") {
+			found := false
+			for _, member := range l.Members {
+				if name == "cursor-"+member.ClientID {
+					found = true
+					break
+				}
+				if !found {
+					gui.DeleteView(name)
+				}
+			}
+		}
 	}
 
 	for i, member := range l.Members {
