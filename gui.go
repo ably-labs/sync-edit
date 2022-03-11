@@ -188,9 +188,13 @@ func (l *Layout) Layout(gui *gocui.Gui) error {
 				}
 				view.Frame = false
 				view.BgColor = gocui.ColorCyan
-				if member.Data.(string) != "" {
-					view.Write([]byte{member.Data.(string)[0]})
-				}
+			}
+			view.Clear()
+			lines := editor.BufferLines()
+			fmt.Fprintln(log, lines)
+			fmt.Fprintln(log, pos.X, pos.Y, len(lines), len(lines[pos.Y]))
+			if len(lines) > pos.Y && len(lines[pos.Y]) > pos.X {
+				view.Write([]byte{lines[pos.Y][pos.X]})
 			}
 		}
 	}
