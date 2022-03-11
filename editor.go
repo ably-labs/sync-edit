@@ -199,8 +199,14 @@ func (e *Editor) handleMessage(msg *ably.Message) {
 		if msg.ClientID != e.Layout.Id {
 			x, y := e.cursorPos()
 			xo, yo := e.View().Origin()
-			if add.Text == "" && (add.Line < y || add.Line == y && add.Pos > x) {
-				e.View().SetCursor(0, y-yo+1)
+			if add.Text == "" && (add.Line < y || add.Line == y && add.Pos < x) {
+				if add.Line == y && add.Pos < x {
+					e.View().SetCursor(x-xo - add.Pos, y-yo+1)
+					fmt.Fprintln(e.Log(), "set cursor", x-xo - add.Pos, y-yo+1)
+				} else {
+					e.View().SetCursor(x-xo, y-yo+1)
+					fmt.Fprintln(e.Log(), "set cursor",x-xo, y-yo+1)
+				}
 			} else if add.Text != "" && add.Line == y && add.Pos+len(add.Text) > x {
 				e.View().SetCursor(x-xo+len(add.Text), y-yo)
 			}
