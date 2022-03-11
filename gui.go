@@ -8,6 +8,8 @@ import (
 	"github.com/jroimartin/gocui"
 )
 
+var colours []gocui.Attribute = []gocui.Attribute{gocui.ColorBlue, gocui.ColorCyan, gocui.ColorGreen, gocui.ColorMagenta, gocui.ColorRed}
+
 type Layout struct {
 	Id       string
 	FileName string
@@ -105,8 +107,9 @@ func (l *Layout) Layout(gui *gocui.Gui) error {
 		members.Frame = true
 	}
 	members.Clear()
-	for _, user := range l.Members {
-		fmt.Fprintf(members, " %s\n", user.Message.Data.(string))
+	for i, user := range l.Members {
+		col := colours[i%len(colours)]
+		fmt.Fprintf(members, "\x1b[0;%dm%s\n", col+29, user.Message.Data.(string))
 	}
 
 	bar, err = gui.SetView("bar", 0, maxY-2, maxX-42, maxY)
@@ -163,7 +166,7 @@ func (l *Layout) Layout(gui *gocui.Gui) error {
 		})
 	}
 
-	for _, member := range l.Members {
+	for i, member := range l.Members {
 		if member.ClientID == l.Id {
 			continue
 		}
@@ -187,8 +190,8 @@ func (l *Layout) Layout(gui *gocui.Gui) error {
 					return err
 				}
 				view.Frame = false
-				view.BgColor = gocui.ColorCyan
 			}
+			view.BgColor = colours[i%len(colours)]
 			view.Clear()
 			lines := editor.BufferLines()
 			fmt.Fprintln(log, lines)
