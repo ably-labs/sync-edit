@@ -211,8 +211,6 @@ func (l *Layout) Layout(gui *gocui.Gui) error {
 			view.BgColor = colours[i%len(colours)]
 			view.Clear()
 			lines := editor.BufferLines()
-			fmt.Fprintln(log, lines)
-			fmt.Fprintln(log, pos.X, pos.Y, len(lines), len(lines[pos.Y]))
 			if len(lines) > pos.Y && len(lines[pos.Y]) > pos.X {
 				view.Write([]byte{lines[pos.Y][pos.X]})
 			}
