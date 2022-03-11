@@ -68,7 +68,7 @@ func run() error {
 		code = makeTag()
 	}
 
-	channel := realtime.Channels.Get(code)
+	channel := realtime.Channels.Get("sync-edit:" + code)
 	err = channel.Attach(ctx)
 	if err != nil {
 		return err
